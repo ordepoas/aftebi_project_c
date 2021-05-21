@@ -124,6 +124,7 @@ Perfil criarPerfil(int *contaPerfil){
     printf("Sobrenome? \n");
     fgets(p[*contaPerfil].sobrenome,MAX_LENGTH_25,stdin);
     printf("Data de nascimento?\n");
+    
     do {
         printf("Dia: ");
         scanf(" %d", &dia);
