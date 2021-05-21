@@ -1,8 +1,3 @@
-#define MAX_LENGTH_25 24;
-#define MAX_LENGTH_50 49;
-#define MAX_LENGTH_200 199;
-
-
 //---- Estrutura da data a usar na estrutura perfil
 struct Data {
 

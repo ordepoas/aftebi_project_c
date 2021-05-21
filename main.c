@@ -1,2 +1,159 @@
 # include <stdio.h>
-# include "menus.c"
+# include <string.h>
+# include "struct.c"
+
+//----------------------------------------------------------------- DECLARAÇÃO DE CONSTANTES
+# define MAX_USERS 10
+# define MAX_LENGTH_200 199
+# define MAX_LENGTH_50 49
+# define MAX_LENGTH_25 24
+
+//----------------------------------------------------------------- DECLARAÇÃO DE FUNÇÕES
+int menu1(int *contaPerfil);
+int menu2();
+int menu3();
+Perfil criarPerfil(int *contaPerfil);
+
+
+//----------------------------------------------------------------- MAIN
+int main() {
+
+    int contaPerfil = 0;
+    Perfil p[MAX_USERS];
+
+    menu1(&contaPerfil);
+
+
+
+    return 0;
+}
+
+//----------------------------------------------------------------- FUNÇÕES MENUS----------------------------------------------
+int menu1(int *contaPerfil) {
+
+    int opcao;
+
+    printf("------------------------------------------\n");
+    printf("(1)\tCriar um novo perfil\n");
+    printf("(2)\tUtilizar um perfil existente\n");
+    printf("\n");
+    printf("(0)\tSair\n");
+    printf("------------------------------------------\n");
+    printf("\n");
+    printf("Escolha uma das opções: \n");
+    
+    opcao = validaOpcao();
+
+    if(opcao == 1) {
+        criarPerfil(&contaPerfil);
+    } else if (opcao == 2) {
+        listarPerfis();
+    }
+}   
+
+//----------------------------------------------------------------- FUNÇÕES
+//Função par validar a opção escolhida no menu devolve 0, 1 ou 2
+int validaOpcao() {
+
+    int n;
+
+    while (1) {
+
+        scanf(" %d", &n);
+        getchar();
+        if(n != 0 && n != 1 && n != 2) {
+
+            printf("Opção inválida\n");
+        }
+
+        return n;
+    }
+}
+
+//Função para validar a data entrada -> 0 inválida 1 válida
+int validaData(int dia, int mes, int ano)
+{
+    //se o retorno da função for 0 a data não é válida se for 1 é válida
+    if((dia > 0 && mes > 0 && ano >= 0) && (dia <= 31 && mes <=12))
+    {
+
+        if (mes = 2 && dia > 29) {
+                return 0;
+        } else if (dia == 29)
+            {
+                if(ano % 4 != 0){
+                    return 0;;
+                } else if (ano % 100 != 0 ) {
+                    return 1;
+                } else if (ano % 400 == 0) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+    }
+
+    if ((mes = 4 || mes == 6 || mes == 9 || mes == 11) && (dia >30))
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+    
+}
+
+Perfil criarPerfil(int *contaPerfil){
+
+    Perfil p[*contaPerfil];
+    char buffer[MAX_LENGTH_50];
+
+    int dia, mes, ano;
+
+    printf("Nome? \n");
+    fgets(p[*contaPerfil].nome,MAX_LENGTH_25,stdin);
+    printf("Sobrenome? \n");
+    fgets(p[*contaPerfil].sobrenome,MAX_LENGTH_25,stdin);
+    printf("Data de nascimento?\n");
+    do {
+        printf("Dia: ");
+        scanf(" %d", &dia);
+        printf("Mês: ");
+        scanf(" %d", &mes);
+        printf("Ano: ");
+        scanf(" %d", &ano);
+        
+        if(validaData(dia, mes, ano) == 0) {
+            printf("Data inválida\n");
+        } else {
+            p[*contaPerfil].dataNascimento.dia = dia;
+            p[*contaPerfil].dataNascimento.mes = mes;
+            p[*contaPerfil].dataNascimento.ano = ano;
+        }
+
+    } while ((validaData(dia, mes, ano) == 0));
+
+    getchar();
+    printf("\nemail? \n");
+    fgets(p[*contaPerfil].email,MAX_LENGTH_50,stdin);
+    printf("\nPerfil criado com sucesso!! \n");
+    printf("-------------------------------------------\n");
+    printf("Nome: %s %s\n", p[*contaPerfil].nome, p[*contaPerfil].sobrenome);
+    printf("Data de Nascimento: %d-%d-%d\n", p[*contaPerfil].dataNascimento.dia, p[*contaPerfil].dataNascimento.mes, p[*contaPerfil].dataNascimento.ano);
+    printf("Email: %s\n", p[*contaPerfil].email);
+    printf("-------------------------------------------\n");
+
+    printf("\n");
+
+    return p[*contaPerfil];
+}
+void listarPerfil(){
+    printf("Listar Perfil\n");
+}
+void escolherPerfil(){
+    printf("Escolher Perfil\n");
+}
+void publicarMensagem(){
+    printf("Publica Mensagem\n");
+}
