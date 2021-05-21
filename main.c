@@ -2,6 +2,8 @@
 # include <string.h>
 # include "struct.c"
 
+int contaPerfil = 0; //Variavel Global
+
 //----------------------------------------------------------------- DECLARAÇÃO DE CONSTANTES
 # define MAX_USERS 10
 # define MAX_LENGTH_200 199
@@ -9,11 +11,15 @@
 # define MAX_LENGTH_25 24
 
 //----------------------------------------------------------------- DECLARAÇÃO DE FUNÇÕES
-int menu1(int *contaPerfil);
+int menu1();
 int menu2();
 int menu3();
+int validaOpcao();
+int validaData(int dia, int mes, int ano);
 Perfil criarPerfil(int *contaPerfil);
-
+void listarPerfil();
+void escolherPerfil();
+void publicarMensagem();
 
 //----------------------------------------------------------------- MAIN
 int main() {
@@ -21,15 +27,15 @@ int main() {
     int contaPerfil = 0;
     Perfil p[MAX_USERS];
 
-    menu1(&contaPerfil);
+    menu1();
 
 
 
     return 0;
 }
 
-//----------------------------------------------------------------- FUNÇÕES MENUS----------------------------------------------
-int menu1(int *contaPerfil) {
+//----------------------------------------------------------------- MENUS
+int menu1() {
 
     int opcao;
 
@@ -47,7 +53,7 @@ int menu1(int *contaPerfil) {
     if(opcao == 1) {
         criarPerfil(&contaPerfil);
     } else if (opcao == 2) {
-        listarPerfis();
+        listarPerfil();
     }
 }   
 
