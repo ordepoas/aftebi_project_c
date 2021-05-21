@@ -2,13 +2,14 @@
 # include <string.h>
 # include "struct.c"
 
-int contaPerfil = 0; //Variavel Global
+int contaPerfil = 0;
+
 
 //----------------------------------------------------------------- DECLARAÇÃO DE CONSTANTES
-# define MAX_USERS 10
-# define MAX_LENGTH_200 199
-# define MAX_LENGTH_50 49
-# define MAX_LENGTH_25 24
+# define MAX_USERS 10 //numero maximo de perfis
+# define MAX_LENGTH_200 199 //tamanha maximo das mensagens do mural (incluido na estrutura Perfil)
+# define MAX_LENGTH_50 49 //tamanho maximo do campo email (estrutura Perfil)
+# define MAX_LENGTH_25 24 //tamanho maximo dos campos nome e sobrenome (estrutura Perfil)
 
 //----------------------------------------------------------------- DECLARAÇÃO DE FUNÇÕES
 int menu1();
@@ -24,9 +25,7 @@ void publicarMensagem();
 //----------------------------------------------------------------- MAIN
 int main() {
 
-    int contaPerfil = 0;
     Perfil p[MAX_USERS];
-
     menu1();
 
 
@@ -52,10 +51,13 @@ int menu1() {
 
     if(opcao == 1) {
         criarPerfil(&contaPerfil);
+        menu1();
     } else if (opcao == 2) {
         listarPerfil();
     }
-}   
+
+    return opcao;
+}  
 
 //----------------------------------------------------------------- FUNÇÕES
 //Função par validar a opção escolhida no menu devolve 0, 1 ou 2
@@ -144,15 +146,11 @@ Perfil criarPerfil(int *contaPerfil){
     printf("\nemail? \n");
     fgets(p[*contaPerfil].email,MAX_LENGTH_50,stdin);
     printf("\nPerfil criado com sucesso!! \n");
-    printf("-------------------------------------------\n");
-    printf("Nome: %s %s\n", p[*contaPerfil].nome, p[*contaPerfil].sobrenome);
-    printf("Data de Nascimento: %d-%d-%d\n", p[*contaPerfil].dataNascimento.dia, p[*contaPerfil].dataNascimento.mes, p[*contaPerfil].dataNascimento.ano);
-    printf("Email: %s\n", p[*contaPerfil].email);
-    printf("-------------------------------------------\n");
-
     printf("\n");
 
     return p[*contaPerfil];
+    (*contaPerfil)++;
+
 }
 void listarPerfil(){
     printf("Listar Perfil\n");
