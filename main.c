@@ -121,16 +121,21 @@ Perfil criarPerfil(int *contaPerfil){
 
     printf("Nome? \n");
     fgets(p[*contaPerfil].nome,MAX_LENGTH_25,stdin);
+    p[*contaPerfil].nome[strlen(p[*contaPerfil].nome)-1] = '\0';
     printf("Sobrenome? \n");
     fgets(p[*contaPerfil].sobrenome,MAX_LENGTH_25,stdin);
+    p[*contaPerfil].sobrenome[strlen(p[*contaPerfil].sobrenome)-1] = '\0';
     printf("Data de nascimento?\n");
     do {
         printf("Dia: ");
-        scanf(" %d", &dia);
+        fgets(buffer, MAX_LENGTH_50, stdin);
+        sscanf(buffer," %d", &dia);
         printf("Mês: ");
-        scanf(" %d", &mes);
+        fgets(buffer, MAX_LENGTH_50, stdin);
+        sscanf(buffer," %d", &mes);
         printf("Ano: ");
-        scanf(" %d", &ano);
+        fgets(buffer, MAX_LENGTH_50, stdin);
+        sscanf(buffer," %d", &ano);
         
         if(validaData(dia, mes, ano) == 0) {
             printf("Data inválida\n");
@@ -142,9 +147,9 @@ Perfil criarPerfil(int *contaPerfil){
 
     } while ((validaData(dia, mes, ano) == 0));
 
-    getchar();
     printf("\nemail? \n");
     fgets(p[*contaPerfil].email,MAX_LENGTH_50,stdin);
+    p[*contaPerfil].email[strlen(p[*contaPerfil].email)-1] = '\0';
     printf("\nPerfil criado com sucesso!! \n");
     printf("\n");
 
@@ -155,9 +160,11 @@ Perfil criarPerfil(int *contaPerfil){
 void listarPerfil(){
     printf("Listar Perfil\n");
 }
+
 void escolherPerfil(){
     printf("Escolher Perfil\n");
 }
+
 void publicarMensagem(){
     printf("Publica Mensagem\n");
 }
