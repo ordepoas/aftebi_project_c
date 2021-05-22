@@ -2,8 +2,6 @@
 # include <string.h>
 # include "struct.c"
 
-int contaPerfil = 0;
-
 
 //----------------------------------------------------------------- DECLARAÇÃO DE CONSTANTES
 # define MAX_USERS 10 //numero maximo de perfis
@@ -24,10 +22,18 @@ void publicarMensagem();
 
 //----------------------------------------------------------------- MAIN
 int main() {
-
+    int contaPerfil = 0;
     Perfil p[MAX_USERS];
-    menu1();
 
+    int m1;
+    m1 = menu1();
+
+    if(m1 == 1) {
+        p[contaPerfil] = criarPerfil(&contaPerfil);
+        menu1();
+    } else if (m1 == 2) {
+        listarPerfil();
+    }
 
 
     return 0;
@@ -49,12 +55,41 @@ int menu1() {
     
     opcao = validaOpcao();
 
-    if(opcao == 1) {
-        criarPerfil(&contaPerfil);
-        menu1();
-    } else if (opcao == 2) {
-        listarPerfil();
-    }
+    return opcao;
+}  
+
+int menu2() {
+
+    int opcao;
+
+    printf("------------------------------------------\n");
+    printf("(1)\tVizualizar um dos perfis\n");
+    printf("(2)\tVoltar atrás\n");
+    printf("\n");
+    printf("(0)\tSair\n");
+    printf("------------------------------------------\n");
+    printf("\n");
+    printf("Escolha uma das opções: \n");
+    
+    opcao = validaOpcao();
+
+    return opcao;
+}  
+
+int menu3() {
+
+    int opcao;
+
+    printf("------------------------------------------\n");
+    printf("(1)\tColocar uma mensagem no Mural\n");
+    printf("(2)\tVoltar atrás\n");
+    printf("\n");
+    printf("(0)\tSair\n");
+    printf("------------------------------------------\n");
+    printf("\n");
+    printf("Escolha uma das opções: \n");
+    
+    opcao = validaOpcao();
 
     return opcao;
 }  
