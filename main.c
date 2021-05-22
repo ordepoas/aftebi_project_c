@@ -93,7 +93,7 @@ int menu3(Perfil *p, int x) {
     opcao = validaOpcao();
 
     if(opcao == 1) {
-        publicarMensagem(p, x);
+        publicarMensagem(p,x);
     } else if (opcao == 2) {
         menu2(p);
     }
@@ -220,27 +220,55 @@ void listarPerfil(Perfil *p, int counter){
 
 void escolherPerfil(Perfil *p, int counter){
 
-    int i, x;
+    int i, j, x, z;
+    z = 0;
 
     printf("--------------------------- [Escolha um dos perfis abaixo] ---------------------------\n");
     for(i=0; i < counter; i++) {
 
-        printf("(%d) - %s %s\n", i+1, p[i].nome,p[i].sobrenome);
+        printf("(%d) - %s %s\n", i, p[i].nome,p[i].sobrenome);
 
     }
 
     scanf("%d", &x);
-    x--;
+
     printf("%s %s - %s\n", p[x].nome,p[x].sobrenome, p[x].email);
     printf("\n\tMensagens do Mural\n");
-    printf("\t\t%s %s - %s\n", p[x].nome,p[x].sobrenome, p[x].email);
 
+    for (j = 0; j < MAX_MSG; j++) {
+        
+        if (p[x].mural[j].autor != NULL) {
+            z++;
+        }
+
+        if(z == 0) {
+            printf("---- Não há mensagens publicadas ----\n");
+        } else {
+
+            printf("\t%s | %s\n", p[x].mural[j].autor,p[x].mural[j].texto);
+        }
+    }
+    printf("\n");    
     menu3(p, x);
-
 
 }
 
 void publicarMensagem(Perfil *p, int x){
-    printf("Publica Mensagem\n");
+
+    int counter = 0;
+
+    for (int i = 0; i < MAX_MSG; i++){
+        p[x].mural[i];
+        counter++;
+    }
+
+    printf("Deixe a sua Mensagem\n");
+    printf("Nome:\n");
+    fgets(p[x].mural[counter].autor, MAX_LENGTH_50, stdin);
+    printf("Mensagem: \n");
+    fgets(p[x].mural[counter].texto, MAX_LENGTH_200, stdin);
+    printf("\n");
+
+
     menu3(p, x);
 }
