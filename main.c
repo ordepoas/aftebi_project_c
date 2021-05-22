@@ -1,46 +1,31 @@
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
 # include "struct.c"
 
-
-//----------------------------------------------------------------- DECLARAÇÃO DE CONSTANTES
-# define MAX_USERS 10 //numero maximo de perfis
-# define MAX_LENGTH_200 199 //tamanha maximo das mensagens do mural (incluido na estrutura Perfil)
-# define MAX_LENGTH_50 49 //tamanho maximo do campo email (estrutura Perfil)
-# define MAX_LENGTH_25 24 //tamanho maximo dos campos nome e sobrenome (estrutura Perfil)
-
 //----------------------------------------------------------------- DECLARAÇÃO DE FUNÇÕES
-int menu1();
-int menu2();
-int menu3();
-int validaOpcao();
-int validaData(int dia, int mes, int ano);
-Perfil criarPerfil(int *contaPerfil);
-void listarPerfil();
-void escolherPerfil();
-void publicarMensagem();
+int menu1(Perfil *p); //1º menu de opções
+int menu2(Perfil *p); //2º menu de opções
+int menu3(Perfil *p, int x); //3º menu de opções
+int validaOpcao(); // valida as opções selecionadas de cada menu devolvendo o valor da selecção
+int validaData(int dia, int mes, int ano); //verfica se a data inserida é válida
+Perfil criarPerfil(int *contaPerfil); //Cria perfil de utilizador
+void listarPerfil(Perfil *p, int counter); // lista os perfis existentes
+void escolherPerfil(Perfil *p, int counter); //seleciona um perfil e apresenta o mural
+void publicarMensagem(Perfil *p, int x); //publica uma mensagem no mural
 
 //----------------------------------------------------------------- MAIN
 int main() {
-    int contaPerfil = 0;
+
     Perfil p[MAX_USERS];
-
-    int m1;
-    m1 = menu1();
-
-    if(m1 == 1) {
-        p[contaPerfil] = criarPerfil(&contaPerfil);
-        menu1();
-    } else if (m1 == 2) {
-        listarPerfil();
-    }
-
+  
+    while(menu1(p) != 0);
 
     return 0;
 }
 
 //----------------------------------------------------------------- MENUS
-int menu1() {
+int menu1(Perfil *p) {
 
     int opcao;
 
@@ -51,14 +36,21 @@ int menu1() {
     printf("(0)\tSair\n");
     printf("------------------------------------------\n");
     printf("\n");
-    printf("Escolha uma das opções: \n");
+    printf("Escolha uma das opções: ");
     
     opcao = validaOpcao();
+
+        if(opcao == 1) {
+        p[contaPerfil] = criarPerfil(&contaPerfil);
+    } else if (opcao == 2) {
+        listarPerfil(p, contaPerfil);
+        menu2(p);
+    }
 
     return opcao;
 }  
 
-int menu2() {
+int menu2(Perfil *p) {
 
     int opcao;
 
@@ -73,10 +65,19 @@ int menu2() {
     
     opcao = validaOpcao();
 
+    if(opcao == 1) {
+
+        escolherPerfil(p, contaPerfil);
+    } else if (opcao == 2) {
+
+        menu1(p);
+    }
+
+
     return opcao;
 }  
 
-int menu3() {
+int menu3(Perfil *p, int x) {
 
     int opcao;
 
@@ -90,6 +91,14 @@ int menu3() {
     printf("Escolha uma das opções: \n");
     
     opcao = validaOpcao();
+
+    if(opcao == 1) {
+        publicarMensagem(p, x);
+    } else if (opcao == 2) {
+        menu2(p);
+    }
+
+    
 
     return opcao;
 }  
@@ -190,17 +199,48 @@ Perfil criarPerfil(int *contaPerfil){
     printf("\n");
 
     (*contaPerfil)++;
+
     return p;
     
 }
-void listarPerfil(){
-    printf("Listar Perfil\n");
+
+void listarPerfil(Perfil *p, int counter){
+
+    int i;
+
+    printf("--------------------------- [Perfis existentes] ---------------------------\n");
+    for(i=0; i < counter; i++) {
+
+        printf("-> %s %s\n", p[i].nome,p[i].sobrenome);
+
+    }
+
+    menu2(p);
 }
 
-void escolherPerfil(){
-    printf("Escolher Perfil\n");
+void escolherPerfil(Perfil *p, int counter){
+
+    int i, x;
+
+    printf("--------------------------- [Escolha um dos perfis abaixo] ---------------------------\n");
+    for(i=0; i < counter; i++) {
+
+        printf("(%d) - %s %s\n", i+1, p[i].nome,p[i].sobrenome);
+
+    }
+
+    scanf("%d", &x);
+    x--;
+    printf("%s %s - %s\n", p[x].nome,p[x].sobrenome, p[x].email);
+    printf("\n\tMensagens do Mural\n");
+    printf("\t\t%s %s - %s\n", p[x].nome,p[x].sobrenome, p[x].email);
+
+    menu3(p, x);
+
+
 }
 
-void publicarMensagem(){
+void publicarMensagem(Perfil *p, int x){
     printf("Publica Mensagem\n");
+    menu3(p, x);
 }

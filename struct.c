@@ -1,3 +1,12 @@
+//----------------------------------------------------------------- DECLARAÇÃO DE CONSTANTES
+# define MAX_USERS 10 //numero maximo de perfis
+# define MAX_LENGTH_200 199 //tamanha maximo das mensagens do mural (incluido na estrutura Perfil)
+# define MAX_LENGTH_50 49 //tamanho maximo do campo email (estrutura Perfil)
+# define MAX_LENGTH_25 24 //tamanho maximo dos campos nome e sobrenome (estrutura Perfil)
+
+int contaPerfil = 0; //contador de perfis criados
+int contaMsg[MAX_USERS][50] = {0};
+
 //---- Estrutura da data a usar na estrutura perfil
 typedef struct {
 
