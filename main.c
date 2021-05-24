@@ -161,22 +161,22 @@ Perfil criarPerfil(int *contaPerfil){
     int dia, mes, ano;
 
     printf("Nome? \n");
-    fgets(p.nome,MAX_LENGTH_25,stdin);
+    fgets(p.nome,MAX_LENGTH_25-1,stdin);
     p.nome[strlen(p.nome)-1] = '\0';
     printf("Sobrenome? \n");
-    fgets(p.sobrenome,MAX_LENGTH_25,stdin);
+    fgets(p.sobrenome,MAX_LENGTH_25-1,stdin);
     p.sobrenome[strlen(p.sobrenome)-1] = '\0';
     printf("Data de nascimento?\n");
     
     do {
         printf("Dia: ");
-        fgets(buffer, MAX_LENGTH_50, stdin);
+        fgets(buffer, MAX_LENGTH_50-1, stdin);
         sscanf(buffer," %d", &dia);
         printf("Mês: ");
-        fgets(buffer, MAX_LENGTH_50, stdin);
+        fgets(buffer, MAX_LENGTH_50-1, stdin);
         sscanf(buffer," %d", &mes);
         printf("Ano: ");
-        fgets(buffer, MAX_LENGTH_50, stdin);
+        fgets(buffer, MAX_LENGTH_50-1, stdin);
         sscanf(buffer," %d", &ano);
         
         if(validaData(dia, mes, ano) == 0) {
@@ -190,9 +190,11 @@ Perfil criarPerfil(int *contaPerfil){
     } while ((validaData(dia, mes, ano) == 0));
 
     printf("\nemail? \n");
-    fgets(p.email,MAX_LENGTH_50,stdin);
+    fgets(p.email,MAX_LENGTH_50-1,stdin);
     p.email[strlen(p.email)-1] = '\0';
-    printf("\nPerfil criado com sucesso!! \n");
+    printf("\n-------------------------------\n");
+    printf("| Perfil criado com sucesso!! |\n");
+    printf("-------------------------------\n");
     printf("\n");
 
     (*contaPerfil)++;
@@ -241,7 +243,7 @@ void escolherPerfil(Perfil *p, int counter, int contarMensagens[]){
 
         for (j = 0; j < contarMensagens[x]; j++) {
 
-            printf("\t%s | %s\n", p[x].mural[j].autor,p[x].mural[j].texto);
+            printf("\tAutor: %s | Mensagem: %s\n", p[x].mural[j].autor,p[x].mural[j].texto);
         }
     }
 
@@ -258,8 +260,10 @@ void publicarMensagem(Perfil *p, int x, int contarMensagens[]){
     printf("Deixe a sua Mensagem\n");
     printf("Nome:\n");
     fgets(p[x].mural[contarMensagens[x]].autor, MAX_LENGTH_50, stdin);
+    p[x].mural[contarMensagens[x]].autor[strlen(p[x].mural[contarMensagens[x]].autor)-1] = '\0';
     printf("Mensagem: \n");
     fgets(p[x].mural[contarMensagens[x]].texto, MAX_LENGTH_200, stdin);
+    p[x].mural[contarMensagens[x]].texto[strlen(p[x].mural[contarMensagens[x]].texto)-1] = '\0';
     printf("\n");
 
     (contarMensagens[x])++;    
