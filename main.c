@@ -1,4 +1,4 @@
-# include "headers.h"
+# include "struct.h"
 
 //----------------------------------------------------------------- MAIN
 int main() {
@@ -55,6 +55,7 @@ int menu2(Perfil *p) {
     if(opcao == 1) {
 
         escolherPerfil(p, contaPerfil, contarMensagens);
+
     } else if (opcao == 2) {
 
         menu1(p);
@@ -78,7 +79,6 @@ int menu3(Perfil *p, int x,int contarMensagens[]) {
     printf("\t\t------------------------------------------\n");
     printf("\n");
     printf("\t\tEscolha uma das opções: ");
-    printf("\n\t\t");
 
     opcao = validaOpcao();
 
@@ -199,7 +199,7 @@ Perfil criarPerfil(int *contaPerfil){
 
     } while ((validaData(dia, mes, ano) == 0) || (validaData(dia, mes, ano) == 3));
 
-    printf("\n\t\temail? \n\t\t");
+    printf("\t\temail? ");
     fgets(p.email,MAX_LENGTH_50-1,stdin);
     p.email[strlen(p.email)-1] = '\0';
     printf("\n\t\t-------------------------------\n");
@@ -226,7 +226,7 @@ void listarPerfil(Perfil *p, int counter){
     }
     printf("\n");
 
-    menu2(p);
+    //menu2(p);
 }
 
 //seleciona um perfil e apresenta o mural
@@ -234,15 +234,15 @@ void escolherPerfil(Perfil *p, int counter, int contarMensagens[]){
 
     int i, j, x, z;
 
-    printf("\t\t--------------------------- [Escolha um dos perfis abaixo] ---------------------------\n\n");
+    printf("\n\t\t----------------------- [Escolha um dos perfis abaixo] ---------------------\n\n");
     for(i=0; i < counter; i++) {
 
         printf("\t\t(%d) - %s %s \n", i, p[i].nome,p[i].sobrenome);
 
     }
-    printf("\t\tIndique a sua opção: \n");
+    printf("\n\n\t\tIndique a sua opção: ");
 
-    scanf(" %d", &x);
+    scanf("%d", &x);
 
     printf("\t\t%s %s - %s\n", p[x].nome,p[x].sobrenome, p[x].email);
     printf("\n\t\t\tMensagens do Mural\n\n");
@@ -269,7 +269,7 @@ void publicarMensagem(Perfil *p, int x, int contarMensagens[]){
 
 
 
-    printf("\t\tDeixe a sua Mensagem\n");
+    printf("\n\t\tDeixe a sua Mensagem\n");
     printf("\t\tNome: ");
     fgets(p[x].mural[contarMensagens[x]].autor, MAX_LENGTH_50, stdin);
     p[x].mural[contarMensagens[x]].autor[strlen(p[x].mural[contarMensagens[x]].autor)-1] = '\0';

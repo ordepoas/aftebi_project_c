@@ -1,11 +1,13 @@
 validação da data, está a eceitar meses > 12 --> OK
 validação de string > 1 nas mensagens 
 opção de sair em todos os menus; -- > OK
-melhorar apresentação
+melhorar apresentação --> OK
 adicionar novas funcionalidades
-validar data não pode ser superior à data atual
+validar data não pode ser superior à data atual --> OK
 idade na apresentação do nome/perfil
 
 depois de colocar as mensagens ir para o perfil já com a mensagem... quando está nas mensagens 
 voltar para trás menu2 + listar perfil
 
+Exportar 2 perfis para ficheiro
+Adicionar Localidade à Struct Perfis
