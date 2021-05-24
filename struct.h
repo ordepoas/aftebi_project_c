@@ -7,6 +7,10 @@
 
 int contaPerfil = 0; //contador de perfis criados
 int contarMensagens [MAX_USERS] = {0};
+
+//----------------------------------------------------------------- DECLARAÇÃO DE ESTRUTURAS
+
+
 //---- Estrutura da data a usar na estrutura perfil
 typedef struct data {
 
