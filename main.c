@@ -98,8 +98,6 @@ int menu3(Perfil *p, int x,int contarMensagens[]) {
         menu2(p);
     }
 
-    
-
     return opcao;
 }  
 
@@ -129,7 +127,7 @@ int validaData(int dia, int mes, int ano)
     if((dia > 0 && mes > 0 && ano >= 0) && (dia <= 31 && mes <=12))
     {
 
-        if (mes = 2 && dia > 29 && mes > 12) {
+        if (mes = 2 && dia > 29 || mes > 12) {
                 return 0;
         } else if (dia == 29)
             {
