@@ -14,8 +14,16 @@ void printContar(){
 
 int main(){
 
-    time_t current_time;
-    printf("%d\n", time());
+    time_t time_raw_format;
+    struct tm * ptr_time;
+
+    time ( &time_raw_format );
+    ptr_time = localtime ( &time_raw_format );
+    //printf ("Current local time and date: %s\n", asctime(ptr_time));
+    printf("%d-%d-%d\n", ptr_time->tm_mday, ptr_time->tm_mon, ptr_time->tm_year+1900);
+
+    return 0;
+
 
     return 0;
 }

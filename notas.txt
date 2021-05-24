@@ -6,3 +6,6 @@ adicionar novas funcionalidades
 validar data não pode ser superior à data atual
 idade na apresentação do nome/perfil
 
+depois de colocar as mensagens ir para o perfil já com a mensagem... quando está nas mensagens 
+voltar para trás menu2 + listar perfil
+
