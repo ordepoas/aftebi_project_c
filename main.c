@@ -4,15 +4,15 @@
 # include "struct.c"
 
 //----------------------------------------------------------------- DECLARAÇÃO DE FUNÇÕES
-int menu1(Perfil *p); //1º menu de opções
-int menu2(Perfil *p); //2º menu de opções
-int menu3(Perfil *p, int x, int contarMensagens[]); //3º menu de opções
-int validaOpcao(); // valida as opções selecionadas de cada menu devolvendo o valor da selecção
-int validaData(int dia, int mes, int ano); //verfica se a data inserida é válida
-Perfil criarPerfil(int *contaPerfil); //Cria perfil de utilizador
-void listarPerfil(Perfil *p, int counter); // lista os perfis existentes
-void escolherPerfil(Perfil *p, int counter, int contarMensagens[]); //seleciona um perfil e apresenta o mural
-void publicarMensagem(Perfil *p, int x, int contarMensagens[]); //publica uma mensagem no mural
+int menu1(Perfil *p);
+int menu2(Perfil *p);
+int menu3(Perfil *p, int x, int contarMensagens[]);
+int validaOpcao(); 
+int validaData(int dia, int mes, int ano);
+Perfil criarPerfil(int *contaPerfil); 
+void listarPerfil(Perfil *p, int counter); 
+void escolherPerfil(Perfil *p, int counter, int contarMensagens[]); 
+void publicarMensagem(Perfil *p, int x, int contarMensagens[]); 
 
 //----------------------------------------------------------------- MAIN
 int main() {
@@ -25,6 +25,7 @@ int main() {
 }
 
 //----------------------------------------------------------------- MENUS
+//1º menu de opções
 int menu1(Perfil *p) {
 
     int opcao;
@@ -50,6 +51,7 @@ int menu1(Perfil *p) {
     return opcao;
 }  
 
+//2º menu de opções
 int menu2(Perfil *p) {
 
     int opcao;
@@ -73,10 +75,10 @@ int menu2(Perfil *p) {
         menu1(p);
     }
 
-
     return opcao;
 }  
 
+//3º menu de opções
 int menu3(Perfil *p, int x,int contarMensagens[]) {
 
     int opcao;
@@ -95,14 +97,19 @@ int menu3(Perfil *p, int x,int contarMensagens[]) {
     if(opcao == 1) {
         publicarMensagem(p,x,contarMensagens);
     } else if (opcao == 2) {
+
         menu2(p);
+
+    } else {
+
+        menu1(p);
     }
 
     return opcao;
 }  
 
 //----------------------------------------------------------------- FUNÇÕES
-//Função par validar a opção escolhida no menu devolve 0, 1 ou 2
+//Função par validar a opção escolhida nos menus devolve 0, 1 ou 2
 int validaOpcao() {
 
     int n;
@@ -120,7 +127,7 @@ int validaOpcao() {
     }
 }
 
-//Função para validar a data entrada -> 0 inválida 1 válida
+//Função para validar a data entrada -> devolve o valor 0 para inválida e 1 para válida
 int validaData(int dia, int mes, int ano)
 {
     //se o retorno da função for 0 a data não é válida se for 1 é válida
@@ -154,6 +161,7 @@ int validaData(int dia, int mes, int ano)
     
 }
 
+//Cria perfil de utilizador
 Perfil criarPerfil(int *contaPerfil){
 
     Perfil p;
@@ -202,6 +210,7 @@ Perfil criarPerfil(int *contaPerfil){
     
 }
 
+// lista os perfis existentes
 void listarPerfil(Perfil *p, int counter){
 
     int i;
@@ -216,6 +225,7 @@ void listarPerfil(Perfil *p, int counter){
     menu2(p);
 }
 
+//seleciona um perfil e apresenta o mural
 void escolherPerfil(Perfil *p, int counter, int contarMensagens[]){
 
     int i, j, x, z;
@@ -249,6 +259,7 @@ void escolherPerfil(Perfil *p, int counter, int contarMensagens[]){
 
 }
 
+//publica uma mensagem no mural
 void publicarMensagem(Perfil *p, int x, int contarMensagens[]){
 
 

@@ -8,7 +8,7 @@
 int contaPerfil = 0; //contador de perfis criados
 int contarMensagens [MAX_USERS] = {0};
 //---- Estrutura da data a usar na estrutura perfil
-typedef struct {
+typedef struct data {
 
     int dia;
     int mes;
@@ -16,14 +16,14 @@ typedef struct {
 } Data;
 
 //---- Estrutura do Mural a incluir na estrutura perfil
-typedef struct {
+typedef struct mural {
 
     char autor[50];
     char texto[200];
 } Mural;
 
 // ---- Estrutura do perfil
-typedef struct Perfis{
+typedef struct perfil {
 
     char nome[25];
     char sobrenome[25];
