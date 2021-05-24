@@ -75,6 +75,8 @@ int menu2(Perfil *p) {
         menu1(p);
     }
 
+    exit(opcao);
+
     return opcao;
 }  
 
@@ -100,15 +102,15 @@ int menu3(Perfil *p, int x,int contarMensagens[]) {
 
         menu2(p);
 
-    } else {
-
-        menu1(p);
     }
+
+    exit(opcao);
 
     return opcao;
 }  
 
 //----------------------------------------------------------------- FUNÇÕES
+
 //Função par validar a opção escolhida nos menus devolve 0, 1 ou 2
 int validaOpcao() {
 
@@ -128,7 +130,7 @@ int validaOpcao() {
 }
 
 //Função para validar a data entrada -> devolve o valor 0 para inválida e 1 para válida
-int validaData(int dia, int mes, int ano)
+int validaData(int dia, int mes, int ano) //PRECISO VALIDAR COM DATA ATUAL
 {
     //se o retorno da função for 0 a data não é válida se for 1 é válida
     if((dia > 0 && mes > 0 && ano >= 0) && (dia <= 31 && mes <=12))
