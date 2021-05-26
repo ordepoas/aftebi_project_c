@@ -1,13 +1,18 @@
 validação da data, está a eceitar meses > 12 --> OK
-validação de string > 1 nas mensagens 
+validação de string > 1 nas mensagens OK
 opção de sair em todos os menus; -- > OK
 melhorar apresentação --> OK
 adicionar novas funcionalidades
 validar data não pode ser superior à data atual --> OK
-idade na apresentação do nome/perfil
+idade na apresentação do nome/perfil OK
 
 depois de colocar as mensagens ir para o perfil já com a mensagem... quando está nas mensagens 
-voltar para trás menu2 + listar perfil
+voltar para trás menu2 + listar perfil // pensar melhor influencia os menus
 
 Exportar 2 perfis para ficheiro
-Adicionar Localidade à Struct Perfis
+Adicionar Localidade à Struct Perfis OK
+validar @ no email --> OK
+//--------------------------------------------------------
+
+--> Carregar Perfis de ficheiro
+--> Exportar Perfis para o ficheiro
