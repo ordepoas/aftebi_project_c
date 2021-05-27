@@ -6,7 +6,7 @@
 # define MAX_MSG 50 //tamanho maximo de mensagens permitidas por perfil
 
 int contaPerfil = 0; //contador de perfis criados
-int contarMensagens [MAX_USERS] = {0};
+//int contarMensagens [MAX_USERS] = {0};
 
 
 //----------------------------------------------------------------- DECLARAÇÃO DE ESTRUTURAS
@@ -35,5 +35,6 @@ typedef struct perfil {
     char email[50];
     char localidade[50];
     Mural mural[MAX_MSG];
+    int contaMsg;
 
 } Perfil;

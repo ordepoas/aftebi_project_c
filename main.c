@@ -5,7 +5,7 @@ int main() {
 
     Perfil p[MAX_USERS];
     
-    restore(p, contaPerfil, contarMensagens);
+    restore(p, contaPerfil);
 
     while(menu1(p) != 0);
 
@@ -38,7 +38,7 @@ int menu1(Perfil *p) {
         menu2(p);
     } else if (opcao == 0) {
 
-        backup(p, contaPerfil, contarMensagens);
+        backup(p, contaPerfil);
 
     }
 
@@ -62,7 +62,7 @@ int menu2(Perfil *p) {
 
     if(opcao == 1) {
 
-        escolherPerfil(p, contaPerfil, contarMensagens);
+        escolherPerfil(p, contaPerfil);
 
     } else if (opcao == 2) {
 
@@ -70,7 +70,7 @@ int menu2(Perfil *p) {
 
     } else if(opcao == 0) {
 
-        backup(p, contaPerfil, contarMensagens);
+        backup(p, contaPerfil);
         exit(opcao);
     }
 
@@ -78,7 +78,7 @@ int menu2(Perfil *p) {
 }  
 
 //3º menu de opções
-int menu3(Perfil *p, int x,int contarMensagens[]) {
+int menu3(Perfil *p, int x) {
 
     int opcao;
 
@@ -94,14 +94,14 @@ int menu3(Perfil *p, int x,int contarMensagens[]) {
     opcao = validaOpcao();
 
     if(opcao == 1) {
-        publicarMensagem(p,x,contarMensagens);
+        publicarMensagem(p,x);
     } else if (opcao == 2) {
 
         menu2(p);
 
     } else if(opcao == 0) {
 
-        backup(p, contaPerfil, contarMensagens);
+        backup(p, contaPerfil);
         exit(opcao);
     }
 
@@ -110,7 +110,7 @@ int menu3(Perfil *p, int x,int contarMensagens[]) {
 
 //----------------------------------------------------------------- FUNÇÕES
 //Backup para ficheiro
-void  backup(Perfil *p, int a, int *b) {
+void  backup(Perfil *p, int a) {
 
         //---- Backup----
     FILE *fcontaPerfil;
@@ -121,7 +121,7 @@ void  backup(Perfil *p, int a, int *b) {
     fcontaMensagens = fopen("contaMensagens.txt", "w+");
     for (int i = 0; i < MAX_MSG; i++) {
 
-        fprintf(fcontaMensagens, "%d", b[i]);
+        fprintf(fcontaMensagens, "%d");
     }
 
     FILE *perfis;
@@ -147,7 +147,7 @@ void  backup(Perfil *p, int a, int *b) {
 }
 
 //Restore
-void restore(Perfil *p, int a, int *b) {
+void restore(Perfil *p, int a) {
 
     int y;
 
@@ -177,7 +177,7 @@ void restore(Perfil *p, int a, int *b) {
 
         for (int i = 0; i < MAX_MSG; i++) {
 
-            fscanf(fcontaMensagens, "%d", &b[i]);
+            fscanf(fcontaMensagens, "%d");
         }
 
         fclose(fcontaMensagens);
@@ -372,6 +372,8 @@ Perfil criarPerfil(int *contaPerfil){
     printf("\t\t-------------------------------\n");
     printf("\n");
 
+    p.contaMsg = 0;
+
     (*contaPerfil)++;
 
     return p;
@@ -395,7 +397,7 @@ void listarPerfil(Perfil *p, int counter){
 }
 
 //seleciona um perfil e apresenta o mural
-void escolherPerfil(Perfil *p, int counter, int contarMensagens[]){
+void escolherPerfil(Perfil *p, int counter){
 
     int i, j, x, z;
 
@@ -418,37 +420,37 @@ void escolherPerfil(Perfil *p, int counter, int contarMensagens[]){
 
     } else {
 
-        for (j = 0; j < contarMensagens[x]; j++) {
+        for (j = 0; j < p->contaMsg; j++) {
 
             printf("\t\t\tAutor: %s | Mensagem: %s\n", p[x].mural[j].autor,p[x].mural[j].texto);
         }
     }
 
     printf("\n");    
-    menu3(p, x, contarMensagens);
+    menu3(p, x);
 
 }
 
 //publica uma mensagem no mural
-void publicarMensagem(Perfil *p, int x, int contarMensagens[]){
+void publicarMensagem(Perfil *p, int x){
 
 
 
     printf("\n\t\tDeixe a sua Mensagem\n");
     do {
         printf("\t\tNome: ");
-        fgets(p[x].mural[contarMensagens[x]].autor, MAX_LENGTH_50, stdin);
-        p[x].mural[contarMensagens[x]].autor[strlen(p[x].mural[contarMensagens[x]].autor)-1] = '\0';
-    } while (checkString(p[x].mural[contarMensagens[x]].autor) == 0);
+        fgets(p[x].mural[p->contaMsg].autor, MAX_LENGTH_50, stdin);
+        p[x].mural[p->contaMsg].autor[strlen(p[x].mural[p->contaMsg].autor)-1] = '\0';
+    } while (checkString(p[x].mural[p->contaMsg].autor) == 0);
     do {
         printf("\t\tMensagem: ");
-        fgets(p[x].mural[contarMensagens[x]].texto, MAX_LENGTH_200, stdin);
-        p[x].mural[contarMensagens[x]].texto[strlen(p[x].mural[contarMensagens[x]].texto)-1] = '\0';
-    } while (checkString(p[x].mural[contarMensagens[x]].texto) == 0);
+        fgets(p[x].mural[p->contaMsg].texto, MAX_LENGTH_200, stdin);
+        p[x].mural[p->contaMsg].texto[strlen(p[x].mural[p->contaMsg].texto)-1] = '\0';
+    } while (checkString(p[x].mural[p->contaMsg].texto) == 0);
 
     printf("\n");
 
-    (contarMensagens[x])++;    
+    p[x].contaMsg++;
 
-    menu3(p, x, contarMensagens);
+    menu3(p, x);
 }
