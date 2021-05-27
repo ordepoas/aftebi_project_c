@@ -147,20 +147,23 @@ void  backup(Perfil *p, int a, int *b) {
 }
 
 //Restore
-void  restore(Perfil *p, int a, int *b) {
+void restore(Perfil *p, int a, int *b) {
 
     int y;
 
+    printf("\t\tQuer restaurar os perfis da sessão anterior? \n");
+    printf("\t\tEscolha (1) para restaurar ou (2) para continuar: ");
+
+
     do {
-        printf("\t\tQuer restaurar os perfis da sessão anterior? \n");
-        printf("\t\tEscolha (1) para restaurar ou (2) para continuar: ");
+
         scanf("%d", &y);
 
-        if(y != 1 || y != 2) {
+        if(y != 1 && y != 2) {
             printf("\t\tOpção inválida!!\n");
         }
 
-    } while (y != 1 || y != 2);
+    } while (y != 1 && y != 2);
 
     if(y == 1) {
             //---- Restore----
@@ -202,6 +205,8 @@ void  restore(Perfil *p, int a, int *b) {
 
         fclose(perfis);
     }
+
+    return;
 }
 
 //Função par validar a opção escolhida nos menus devolve 0, 1 ou 2
