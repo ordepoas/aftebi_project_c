@@ -4,18 +4,17 @@
 int main() {
 
     Perfil p[MAX_USERS];
-  
+    
+    restore(p, contaPerfil, contarMensagens);
+
     while(menu1(p) != 0);
 
-    //---- Backup----
-    FILE *contadores;
-    contadores = fopen("contadores.txt", "w+");
-    fprintf(contadores, "%d;%d", )
 
     return 0;
 }
 
 //----------------------------------------------------------------- MENUS
+
 //1º menu de opções
 int menu1(Perfil *p) {
 
@@ -37,6 +36,10 @@ int menu1(Perfil *p) {
     } else if (opcao == 2) {
         listarPerfil(p, contaPerfil);
         menu2(p);
+    } else if (opcao == 0) {
+
+        backup(p, contaPerfil, contarMensagens);
+
     }
 
     return opcao;
@@ -64,9 +67,12 @@ int menu2(Perfil *p) {
     } else if (opcao == 2) {
 
         menu1(p);
-    }
 
-    exit(opcao);
+    } else if(opcao == 0) {
+
+        backup(p, contaPerfil, contarMensagens);
+        exit(opcao);
+    }
 
     return opcao;
 }  
@@ -93,14 +99,110 @@ int menu3(Perfil *p, int x,int contarMensagens[]) {
 
         menu2(p);
 
-    }
+    } else if(opcao == 0) {
 
-    exit(opcao);
+        backup(p, contaPerfil, contarMensagens);
+        exit(opcao);
+    }
 
     return opcao;
 }  
 
 //----------------------------------------------------------------- FUNÇÕES
+//Backup para ficheiro
+void  backup(Perfil *p, int a, int *b) {
+
+        //---- Backup----
+    FILE *fcontaPerfil;
+    fcontaPerfil = fopen("contaPerfil.txt", "w+");
+    fprintf(fcontaPerfil, "%d", a);
+
+    FILE *fcontaMensagens;
+    fcontaMensagens = fopen("contaMensagens.txt", "w+");
+    for (int i = 0; i < MAX_MSG; i++) {
+
+        fprintf(fcontaMensagens, "%d", b[i]);
+    }
+
+    FILE *perfis;
+    perfis = fopen("perfis.txt", "w+");
+    for (int i = 0; i < a; i++) {
+        for (int j = 0; j < MAX_MSG; j++) {
+
+            fprintf(perfis, "%s;%s;%d;%d;%d;%s;%s;%s;%s",
+                p->nome,
+                p->sobrenome,
+                p->dataNascimento.dia,
+                p->dataNascimento.mes,
+                p->dataNascimento.ano,
+                p->email,
+                p->localidade,
+                p->mural[j].autor,
+                p->mural[j].texto
+            );
+
+        }
+    }
+
+}
+
+//Restore
+void  restore(Perfil *p, int a, int *b) {
+
+    int y;
+
+    do {
+        printf("\t\tQuer restaurar os perfis da sessão anterior? \n");
+        printf("\t\tEscolha (1) para restaurar ou (2) para continuar: ");
+        scanf("%d", &y);
+
+        if(y != 1 || y != 2) {
+            printf("\t\tOpção inválida!!\n");
+        }
+
+    } while (y != 1 || y != 2);
+
+    if(y == 1) {
+            //---- Restore----
+        FILE *fcontaPerfil;
+        fcontaPerfil = fopen("contaPerfil.txt", "r");
+        fscanf(fcontaPerfil, "%d", &a);
+        fclose(fcontaPerfil);
+
+        FILE *fcontaMensagens;
+        fcontaMensagens = fopen("contaMensagens.txt", "r");
+
+        for (int i = 0; i < MAX_MSG; i++) {
+
+            fscanf(fcontaMensagens, "%d", &b[i]);
+        }
+
+        fclose(fcontaMensagens);
+
+
+        FILE *perfis;
+        perfis = fopen("perfis.txt", "r");
+
+        for (int i = 0; i < a; i++) {
+            for (int j = 0; j < MAX_MSG; j++) {
+
+                fscanf(perfis, "%s;%s;%d;%d;%d;%s;%s;%s;%s",
+                    p->nome,
+                    p->sobrenome,
+                    &p->dataNascimento.dia,
+                    &p->dataNascimento.mes,
+                    &p->dataNascimento.ano,
+                    p->email,
+                    p->localidade,
+                    p->mural[j].autor,
+                    p->mural[j].texto
+                );
+            }
+        }
+
+        fclose(perfis);
+    }
+}
 
 //Função par validar a opção escolhida nos menus devolve 0, 1 ou 2
 int validaOpcao() {
