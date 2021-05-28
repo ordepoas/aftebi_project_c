@@ -17,5 +17,5 @@ void publicarMensagem(Perfil *p, int x);
 int checkCaracter(char *a);
 int checkString(char *a);
 int calculateAge(int dia, int mes, int ano);
-void  backup(Perfil *p,int a);
-void restore(Perfil *p, int a);
+void backup(Perfil *p,int a);
+void restore(Perfil *p, int *contaPerfil);

@@ -5,7 +5,7 @@ int main() {
 
     Perfil p[MAX_USERS];
     
-    restore(p, contaPerfil);
+    restore(p, &contaPerfil);
 
     while(menu1(p) != 0);
 
@@ -110,44 +110,54 @@ int menu3(Perfil *p, int x) {
 
 //----------------------------------------------------------------- FUNÇÕES
 //Backup para ficheiro
-void  backup(Perfil *p, int a) {
+void backup(Perfil *p, int a) {
 
+    int y;
+
+    printf("\t\tQuer fazer backup dos perfis desta sessão? \n");
+    printf("\t\tEscolha (1) para backup ou (2) para continuar: ");
+
+
+    do {
+
+        scanf("%d", &y);
+
+        if(y != 1 && y != 2) {
+            printf("\t\tOpção inválida!!\n\t\t");
+        }
+
+    } while (y != 1 && y != 2);
+
+    if(y == 1) {
         //---- Backup----
-    FILE *fcontaPerfil;
-    fcontaPerfil = fopen("contaPerfil.txt", "w+");
-    fprintf(fcontaPerfil, "%d", a);
+        FILE *perfis;
+        perfis = fopen("perfis.txt", "w+");
+        for (int i = 0; i < a; i++) {
 
-    FILE *fcontaMensagens;
-    fcontaMensagens = fopen("contaMensagens.txt", "w+");
-    for (int i = 0; i < MAX_MSG; i++) {
-
-        fprintf(fcontaMensagens, "%d");
-    }
-
-    FILE *perfis;
-    perfis = fopen("perfis.txt", "w+");
-    for (int i = 0; i < a; i++) {
-        for (int j = 0; j < MAX_MSG; j++) {
-
-            fprintf(perfis, "%s;%s;%d;%d;%d;%s;%s;%s;%s",
-                p->nome,
-                p->sobrenome,
-                p->dataNascimento.dia,
-                p->dataNascimento.mes,
-                p->dataNascimento.ano,
-                p->email,
-                p->localidade,
-                p->mural[j].autor,
-                p->mural[j].texto
+            fprintf(
+                perfis, "%s %s %d %d %d %s %s %d ",
+                p[i].nome,
+                p[i].sobrenome,
+                p[i].dataNascimento.dia,
+                p[i].dataNascimento.mes,
+                p[i].dataNascimento.ano,
+                p[i].email,
+                p[i].localidade,
+                p[i].contaMsg
             );
 
-        }
-    }
+            for (int j = 0; j < p[i].contaMsg; j++) {
 
+                fprintf(perfis, "%s %s ", p[i].mural[j].autor, p[i].mural[j].texto);
+            }
+        }
+
+        fclose(perfis);
+    }
 }
 
-//Restore
-void restore(Perfil *p, int a) {
+//Restore de ficheiro
+void restore(Perfil *p, int *contaPerfil) {
 
     int y;
 
@@ -160,53 +170,46 @@ void restore(Perfil *p, int a) {
         scanf("%d", &y);
 
         if(y != 1 && y != 2) {
-            printf("\t\tOpção inválida!!\n");
+            printf("\t\tOpção inválida!!\n\t\t");
         }
 
     } while (y != 1 && y != 2);
 
     if(y == 1) {
-            //---- Restore----
-        FILE *fcontaPerfil;
-        fcontaPerfil = fopen("contaPerfil.txt", "r");
-        fscanf(fcontaPerfil, "%d", &a);
-        fclose(fcontaPerfil);
 
-        FILE *fcontaMensagens;
-        fcontaMensagens = fopen("contaMensagens.txt", "r");
-
-        for (int i = 0; i < MAX_MSG; i++) {
-
-            fscanf(fcontaMensagens, "%d");
-        }
-
-        fclose(fcontaMensagens);
-
-
+        //---- Restore----
         FILE *perfis;
-        perfis = fopen("perfis.txt", "r");
+        perfis = fopen("perfis.txt", "r+");
 
-        for (int i = 0; i < a; i++) {
-            for (int j = 0; j < MAX_MSG; j++) {
+        Perfil q;
+        int i = 0;
 
-                fscanf(perfis, "%s;%s;%d;%d;%d;%s;%s;%s;%s",
-                    p->nome,
-                    p->sobrenome,
-                    &p->dataNascimento.dia,
-                    &p->dataNascimento.mes,
-                    &p->dataNascimento.ano,
-                    p->email,
-                    p->localidade,
-                    p->mural[j].autor,
-                    p->mural[j].texto
-                );
+        while(!feof(perfis)) {
+
+            fscanf(perfis, "%s %s %d %d %d %s %s %d ",
+                q.nome,
+                q.sobrenome,
+                &q.dataNascimento.dia,
+                &q.dataNascimento.mes,
+                &q.dataNascimento.ano,
+                q.email,
+                q.localidade,
+                &q.contaMsg
+            );
+
+            for (int j = 0; j < q.contaMsg; j++) {
+
+                fscanf(perfis, "%s %s ", q.mural[j].autor, q.mural[j].texto);
+                
             }
+
+            p[i] = q;
+            i++;
         }
 
         fclose(perfis);
+        (*contaPerfil) = i;
     }
-
-    return;
 }
 
 //Função par validar a opção escolhida nos menus devolve 0, 1 ou 2
@@ -414,7 +417,7 @@ void escolherPerfil(Perfil *p, int counter){
     printf("\n\t\t%s %s | %d anos | %s | %s\n", p[x].nome,p[x].sobrenome, calculateAge(p[x].dataNascimento.dia, p[x].dataNascimento.mes, p[x].dataNascimento.ano), p[x].localidade, p[x].email);
     printf("\n\t\t\tMensagens do Mural\n\n");
 
-    if(strlen(p[x].mural[0].autor) == 0) {
+    if(p[x].contaMsg == 0) {
         
         printf("\t\t\t---- Não há mensagens publicadas ----\n");
 
@@ -434,14 +437,14 @@ void escolherPerfil(Perfil *p, int counter){
 //publica uma mensagem no mural
 void publicarMensagem(Perfil *p, int x){
 
-
-
     printf("\n\t\tDeixe a sua Mensagem\n");
+
     do {
         printf("\t\tNome: ");
         fgets(p[x].mural[p->contaMsg].autor, MAX_LENGTH_50, stdin);
         p[x].mural[p->contaMsg].autor[strlen(p[x].mural[p->contaMsg].autor)-1] = '\0';
     } while (checkString(p[x].mural[p->contaMsg].autor) == 0);
+
     do {
         printf("\t\tMensagem: ");
         fgets(p[x].mural[p->contaMsg].texto, MAX_LENGTH_200, stdin);
