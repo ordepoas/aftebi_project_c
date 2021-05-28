@@ -3,6 +3,8 @@
 //----------------------------------------------------------------- MAIN
 int main() {
 
+    system("clear");
+
     Perfil p[MAX_USERS]; //define o array de estruturas que vão receber os perfis
     
     restore(p, &contaPerfil); 
@@ -18,7 +20,7 @@ int main() {
 //1º menu de opções
 int menu1(Perfil *p) {
 
-    int opcao;
+    int opcao, x;
 
     printf("\n\t\t------------------------------------------\n");
     printf("\t\t(1)\tCriar um novo perfil\n");
@@ -34,8 +36,9 @@ int menu1(Perfil *p) {
         if(opcao == 1) {
         p[contaPerfil] = criarPerfil(&contaPerfil);
     } else if (opcao == 2) {
-        listarPerfil(p, contaPerfil);
-        menu2(p);
+        x = listarPerfil(p, contaPerfil);
+        menu2(p, x);
+
     } else if (opcao == 0) {
 
         backup(p, contaPerfil);
@@ -46,7 +49,7 @@ int menu1(Perfil *p) {
 }  
 
 //2º menu de opções
-int menu2(Perfil *p) {
+int menu2(Perfil *p, int x) {
 
     int opcao;
 
@@ -62,7 +65,7 @@ int menu2(Perfil *p) {
 
     if(opcao == 1) {
 
-        escolherPerfil(p, contaPerfil);
+        escolherPerfil(p, contaPerfil, x);
 
     } else if (opcao == 2) {
 
@@ -78,7 +81,7 @@ int menu2(Perfil *p) {
 }  
 
 //3º menu de opções
-int menu3(Perfil *p, int x) {
+int menu3(Perfil *p, int x, int y) {
 
     int opcao;
 
@@ -94,10 +97,10 @@ int menu3(Perfil *p, int x) {
     opcao = validaOpcao();
 
     if(opcao == 1) {
-        publicarMensagem(p,x);
+        publicarMensagem(p, x, y);
     } else if (opcao == 2) {
 
-        menu2(p);
+        menu2(p, y);
 
     } else if(opcao == 0) {
 
@@ -135,7 +138,7 @@ void backup(Perfil *p, int a) {
         for (int i = 0; i < a; i++) {
 
             fprintf(
-                perfis, "%s %s %d %d %d %s %s %d ",
+                perfis, "%s %s %d %d %d %s %s %s %s %d ",
                 p[i].nome,
                 p[i].sobrenome,
                 p[i].dataNascimento.dia,
@@ -143,6 +146,8 @@ void backup(Perfil *p, int a) {
                 p[i].dataNascimento.ano,
                 p[i].email,
                 p[i].localidade,
+                p[i].login.username,
+                p[i].login.password,
                 p[i].contaMsg
             );
 
@@ -186,7 +191,7 @@ void restore(Perfil *p, int *contaPerfil) {
 
         while(!feof(perfis)) {
 
-            fscanf(perfis, "%s %s %d %d %d %s %s %d ",
+            fscanf(perfis, "%s %s %d %d %d %s %s %s %s %d ",
                 q.nome,
                 q.sobrenome,
                 &q.dataNascimento.dia,
@@ -194,6 +199,8 @@ void restore(Perfil *p, int *contaPerfil) {
                 &q.dataNascimento.ano,
                 q.email,
                 q.localidade,
+                q.login.username,
+                q.login.password,
                 &q.contaMsg
             );
 
@@ -385,7 +392,19 @@ Perfil criarPerfil(int *contaPerfil){
         fgets(p.email,MAX_LENGTH_50-1,stdin);
         p.email[strlen(p.email)-1] = '\0';
     } while (checkCaracter(p.email) == 0);
-    printf("\n\t\t-------------------------------\n");
+
+    printf("\n\n\t\t---- Dados para login ----\n");
+    printf("\t\tUsername: ");
+    fgets(p.login.username, MAX_LENGTH_25, stdin);
+    p.login.username[strlen(p.login.username)-1] = '\0';
+
+    printf("\t\tPassword: ");
+    fgets(p.login.password, MAX_LENGTH_25, stdin);
+    p.login.password[strlen(p.login.password)-1] = '\0';
+
+    system("clear");
+
+    printf("\n\n\t\t-------------------------------\n");
     printf("\t\t| Perfil criado com sucesso!! |\n");
     printf("\t\t-------------------------------\n");
     printf("\n");
@@ -399,9 +418,10 @@ Perfil criarPerfil(int *contaPerfil){
 }
 
 // lista os perfis existentes
-void listarPerfil(Perfil *p, int counter){
-
-    int i;
+int listarPerfil(Perfil *p, int counter){
+    system("clear");
+    char buffer[5];
+    int i, x, y;
 
     printf("\n\t\t------------------- [Escolha um perfil para fazer login] -------------------\n\n");
     for(i=0; i < counter; i++) {
@@ -410,12 +430,20 @@ void listarPerfil(Perfil *p, int counter){
         
     }
     printf("\n");
+    printf("\t\tIndique a sua opção: ");
+    do {
+        fgets(buffer, 5, stdin);
+        sscanf(buffer, "%d", &x);
+    } while(x < 0 || x > i);
+
+    y = login(p, x);
 
     //menu2(p);
+    return y;
 }
 
 //seleciona um perfil e apresenta o mural
-void escolherPerfil(Perfil *p, int counter){
+void escolherPerfil(Perfil *p, int counter, int y){
 
     int i, j, x, z;
 
@@ -445,20 +473,24 @@ void escolherPerfil(Perfil *p, int counter){
     }
 
     printf("\n");    
-    menu3(p, x);
+    menu3(p, x, y);
 
 }
 
 //publica uma mensagem no mural
-void publicarMensagem(Perfil *p, int x){
+void publicarMensagem(Perfil *p, int x, int y){
 
     printf("\n\t\tDeixe a sua Mensagem\n");
 
+    /*
     do {
         printf("\t\tNome: ");
         fgets(p[x].mural[p[x].contaMsg].autor, MAX_LENGTH_50, stdin);
         p[x].mural[p[x].contaMsg].autor[strlen(p[x].mural[p[x].contaMsg].autor)-1] = '\0';
     } while (checkString(p[x].mural[p[x].contaMsg].autor) == 0);
+    */
+
+    strcpy(p[x].mural[p[x].contaMsg].autor, p[y].nome);
 
     do {
         printf("\t\tMensagem: ");
@@ -470,5 +502,77 @@ void publicarMensagem(Perfil *p, int x){
 
     p[x].contaMsg++;
 
-    menu3(p, x);
+    menu3(p, x, y);
+}
+
+//menu de login e validação
+int login(Perfil *p, int x) {
+    
+    char buffer[MAX_LENGTH_25];
+
+    char username_aux[MAX_LENGTH_25];
+    char password_aux[MAX_LENGTH_25];
+
+    int valLength, valString, res, c;
+
+    printf("\t\t----- Login -----\n");
+    printf("\t\tUsername: ");
+    fgets(username_aux, MAX_LENGTH_25, stdin);
+    username_aux[strlen(username_aux)-1] = '\0';
+    printf("\t\tPassword: ");
+    fgets(password_aux, MAX_LENGTH_25, stdin);
+    password_aux[strlen(password_aux)-1] = '\0';
+
+    if((strlen(username_aux) == strlen(p[x].login.username)) && (strlen(password_aux) == strlen(p[x].login.password))) {
+        
+        valLength = 0;
+
+    } else {
+
+        valLength = 1;
+    }
+
+    if((strstr(p[x].login.username, username_aux)) && (strstr(p[x].login.password, password_aux))) {
+        
+        valString = 0;
+
+    } else {
+
+        valString = 1;
+    }
+
+    res = valLength + valString;
+
+    if(res == 0) {
+
+        system("clear");
+        printf("\n\t\tLogin efetuado com sucesso!!\n");
+
+    } else {
+
+        printf("\t\tPassword e/ou Username errados!!\n");
+        printf("\t\tPrima (0) para voltar atrás ou (1) para tentar novamente\n");
+                        
+        do {
+
+            printf("\t\t");
+            fgets(buffer, MAX_LENGTH_25, stdin);
+            sscanf(buffer, "%d", &c);
+
+        } while (c != 1 && c != 0);
+
+        switch(c) {
+
+            case 1 :
+                login(p,x);
+                break;
+            case 0 :
+                menu1(p);
+
+        }     
+    }
+
+    return x;
+
+
 }

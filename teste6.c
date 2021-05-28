@@ -29,7 +29,6 @@ int login(Pessoa p) {
     fgets(password_aux, MAX_C, stdin);
     password_aux[strlen(password_aux)-1] = '\0';
 
-
     if((strlen(username_aux) == strlen(p.username)) && (strlen(password_aux) == strlen(p.password))) {
         
         valLength = 0;

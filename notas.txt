@@ -6,9 +6,6 @@ adicionar novas funcionalidades
 validar data não pode ser superior à data atual --> OK
 idade na apresentação do nome/perfil OK
 
-depois de colocar as mensagens ir para o perfil já com a mensagem... quando está nas mensagens 
-voltar para trás menu2 + listar perfil // pensar melhor influencia os menus
-
 Exportar 2 perfis para ficheiro OK
 Adicionar Localidade à Struct Perfis OK
 validar @ no email --> OK
@@ -20,10 +17,12 @@ validar @ no email --> OK
 --> Validar Data! OK
 
 --> Adicionar função de login
-    - adicionar à struct perfil campos de user e password;
-    - alterar função criar perfil;
-        - tem que validar a password;
-        - tem que camuflar a password;
+    - adicionar à struct perfil campos de user e password; OK
+    - alterar função criar perfil; OK
+        - tem que validar a password; KO
+        - tem que camuflar a password; KO
     - alterar função listar perfil para incluir login;
     - depois segue para o menu, tem que levar o ID com ele.
-    
+    - incluir login na função backup e restore;
+
+

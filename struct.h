@@ -12,7 +12,7 @@ int contaPerfil = 0; //contador de perfis criados
 //----------------------------------------------------------------- DECLARAÇÃO DE ESTRUTURAS
 
 //---- Estrutura da data a usar na estrutura perfil
-typedef struct data {
+typedef struct s_data {
 
     int dia;
     int mes;
@@ -20,14 +20,20 @@ typedef struct data {
 } Data;
 
 //---- Estrutura do Mural a incluir na estrutura perfil
-typedef struct mural {
+typedef struct s_mural {
 
     char autor[50];
     char texto[200];
 } Mural;
 
+//---- Estrtura do login
+typedef struct s_login {
+    char username[25];
+    char password[25];
+} Login;
+
 // ---- Estrutura do perfil
-typedef struct perfil {
+typedef struct s_perfil {
 
     char nome[25];
     char sobrenome[25];
@@ -36,5 +42,6 @@ typedef struct perfil {
     char localidade[50];
     Mural mural[MAX_MSG];
     int contaMsg;
+    Login login;
 
 } Perfil;
