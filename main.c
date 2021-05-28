@@ -241,31 +241,41 @@ int validaData(int dia, int mes, int ano)
     time(&rawDate); //data atual em segundos
     todayDate = localtime (&rawDate); //--> informação retirada do site stackoverflow
 
-    if((ano) > (todayDate->tm_year+1900) || ((ano) == (todayDate->tm_year+1900)) && (mes > (todayDate->tm_mon)) || ((ano) == (todayDate->tm_year+1900)) && (mes == (todayDate->tm_mon)) && (dia > (todayDate->tm_mday))) {
+    if((ano > (todayDate->tm_year+1900)) || ((ano == (todayDate->tm_year+1900)) && (mes > (todayDate->tm_mon))) || ((ano == (todayDate->tm_year+1900)) && (mes == (todayDate->tm_mon)) && (dia > (todayDate->tm_mday)))) {
 
         return 0;
         
     } else if ((dia > 0 && mes > 0 && ano >= 0) && (dia <= 31 && mes <=12)) {
 
         if (mes = 2 && dia > 29 || mes > 12) {
+
                 return 0;
+
         } else if (dia == 29){
             
             if(ano % 4 != 0){
-                return 0;;
+
+                return 0;
+
             } else if (ano % 100 != 0 ) {
+
                 return 1;
+
             } else if (ano % 400 == 0) {
+
                 return 1;
+
             } else {
+
                 return 0;
             }
         }
     }
 
-    if ((mes = 4 || mes == 6 || mes == 9 || mes == 11) && (dia >30)) {
+    if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && (dia > 30)) {
 
         return 0;
+
     } else {
 
         return 1;
@@ -363,7 +373,7 @@ Perfil criarPerfil(int *contaPerfil){
             p.dataNascimento.ano = ano;
         }
 
-    } while ((validaData(dia, mes, ano) == 0) || (validaData(dia, mes, ano) == 3));
+    } while (validaData(dia, mes, ano) == 0);
 
     do {
         printf("\t\temail? ");
