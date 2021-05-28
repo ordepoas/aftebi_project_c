@@ -423,7 +423,7 @@ void escolherPerfil(Perfil *p, int counter){
 
     } else {
 
-        for (j = 0; j < p->contaMsg; j++) {
+        for (j = 0; j < p[x].contaMsg; j++) {
 
             printf("\t\t\tAutor: %s | Mensagem: %s\n", p[x].mural[j].autor,p[x].mural[j].texto);
         }
@@ -441,15 +441,15 @@ void publicarMensagem(Perfil *p, int x){
 
     do {
         printf("\t\tNome: ");
-        fgets(p[x].mural[p->contaMsg].autor, MAX_LENGTH_50, stdin);
-        p[x].mural[p->contaMsg].autor[strlen(p[x].mural[p->contaMsg].autor)-1] = '\0';
-    } while (checkString(p[x].mural[p->contaMsg].autor) == 0);
+        fgets(p[x].mural[p[x].contaMsg].autor, MAX_LENGTH_50, stdin);
+        p[x].mural[p[x].contaMsg].autor[strlen(p[x].mural[p[x].contaMsg].autor)-1] = '\0';
+    } while (checkString(p[x].mural[p[x].contaMsg].autor) == 0);
 
     do {
         printf("\t\tMensagem: ");
-        fgets(p[x].mural[p->contaMsg].texto, MAX_LENGTH_200, stdin);
-        p[x].mural[p->contaMsg].texto[strlen(p[x].mural[p->contaMsg].texto)-1] = '\0';
-    } while (checkString(p[x].mural[p->contaMsg].texto) == 0);
+        fgets(p[x].mural[p[x].contaMsg].texto, MAX_LENGTH_200, stdin);
+        p[x].mural[p[x].contaMsg].texto[strlen(p[x].mural[p[x].contaMsg].texto)-1] = '\0';
+    } while (checkString(p[x].mural[p[x].contaMsg].texto) == 0);
 
     printf("\n");
 
