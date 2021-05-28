@@ -17,4 +17,13 @@ validar @ no email --> OK
 --> Carregar Perfis de ficheiro OK
 --> Exportar Perfis para o ficheiro OK
 
---> Validar Data!
+--> Validar Data! OK
+
+--> Adicionar função de login
+    - adicionar à struct perfil campos de user e password;
+    - alterar função criar perfil;
+        - tem que validar a password;
+        - tem que camuflar a password;
+    - alterar função listar perfil para incluir login;
+    - depois segue para o menu, tem que levar o ID com ele.
+    
