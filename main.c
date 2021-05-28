@@ -272,6 +272,11 @@ int validaData(int dia, int mes, int ano)
         }
     }
 
+    if(mes > 12 || dia > 31) {
+
+        return 0;
+    }
+
     if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && (dia > 30)) {
 
         return 0;
@@ -398,10 +403,10 @@ void listarPerfil(Perfil *p, int counter){
 
     int i;
 
-    printf("\t\t--------------------------- [Perfis existentes] ---------------------------\n\n");
+    printf("\n\t\t------------------- [Escolha um perfil para fazer login] -------------------\n\n");
     for(i=0; i < counter; i++) {
 
-        printf("\t\t-> %s %s de %s\n", p[i].nome,p[i].sobrenome, p[i].localidade);
+        printf("\t\t(%d) %s %s de %s\n", i, p[i].nome,p[i].sobrenome, p[i].localidade);
         
     }
     printf("\n");
