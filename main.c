@@ -3,9 +3,9 @@
 //----------------------------------------------------------------- MAIN
 int main() {
 
-    Perfil p[MAX_USERS];
+    Perfil p[MAX_USERS]; //define o array de estruturas que vão receber os perfis
     
-    restore(p, &contaPerfil);
+    restore(p, &contaPerfil); 
 
     while(menu1(p) != 0);
 
