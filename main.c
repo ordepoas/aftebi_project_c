@@ -117,7 +117,7 @@ void backup(Perfil *p, int a) {
 
     int y;
 
-    printf("\t\tQuer fazer backup dos perfis desta sessão? \n");
+    printf("\n\t\tQuer fazer backup dos perfis desta sessão? \n");
     printf("\t\tEscolha (1) para backup ou (2) para continuar: ");
 
 
@@ -159,6 +159,8 @@ void backup(Perfil *p, int a) {
 
         fclose(perfis);
     }
+
+    exit(0);
 }
 
 //Restore de ficheiro
@@ -166,7 +168,7 @@ void restore(Perfil *p, int *contaPerfil) {
 
     int y;
 
-    printf("\t\tQuer restaurar os perfis da sessão anterior? \n");
+    printf("\n\t\tQuer restaurar os perfis da sessão anterior? \n");
     printf("\t\tEscolha (1) para restaurar ou (2) para continuar: ");
 
 
