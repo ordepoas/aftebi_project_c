@@ -7,7 +7,7 @@ int main() {
 
     Perfil p[MAX_USERS]; //define o array de estruturas que vão receber os perfis
     
-    restore(p, &contaPerfil); 
+    restore(p); 
 
     while(menu1(p) != 0);
 
@@ -133,6 +133,8 @@ void backup(Perfil *p, int a) {
 
     if(y == 1) {
         //---- Backup----
+
+    /*    
         FILE *perfis;
         perfis = fopen("perfis.txt", "w+");
         for (int i = 0; i < a; i++) {
@@ -156,15 +158,32 @@ void backup(Perfil *p, int a) {
                 fprintf(perfis, "%s %s ", p[i].mural[j].autor, p[i].mural[j].texto);
             }
         }
-
+        
         fclose(perfis);
+        */
+
+        FILE *counter;
+        counter = fopen("counter.txt", "w+");
+        fprintf(counter, "%d ", contaPerfil);
+        fclose(counter);
+
+        FILE* data;
+        
+        if ( (data = fopen("data.bin", "wb")) == NULL ) {
+            printf("Error opening file\n");
+            //return 1;   
+        }
+
+        fwrite(p, sizeof(Perfil) * contaPerfil, 1, data);
+        fclose(data);
+
     }
 
     exit(0);
 }
 
 //Restore de ficheiro
-void restore(Perfil *p, int *contaPerfil) {
+void restore(Perfil *p) {
 
     int y;
 
@@ -185,6 +204,7 @@ void restore(Perfil *p, int *contaPerfil) {
     if(y == 1) {
 
         //---- Restore----
+    /*    
         FILE *perfis;
         perfis = fopen("perfis.txt", "r+");
 
@@ -218,6 +238,31 @@ void restore(Perfil *p, int *contaPerfil) {
 
         fclose(perfis);
         (*contaPerfil) = i;
+    */
+        FILE *counter;
+        counter = fopen("counter.txt", "r");
+        char buffer[MAX_LENGTH_25];
+
+        fgets(buffer, MAX_LENGTH_25, counter);
+        sscanf(buffer, "%d", &contaPerfil);
+
+        fclose(counter);
+
+        FILE* data;
+        if ((data = fopen("data.bin", "rb")) == NULL){
+
+            printf("Error opening file\n");
+            //return 1;
+        }
+
+        //struct Person people[2];
+
+        for (int i = 0; i < contaPerfil; i++) {
+
+            fread(p, sizeof(Perfil) * contaPerfil, 1, data);
+        }
+        fclose(data);
+
     }
 }
 

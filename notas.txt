@@ -21,8 +21,12 @@ validar @ no email --> OK
     - alterar função criar perfil; OK
         - tem que validar a password; KO
         - tem que camuflar a password; KO
-    - alterar função listar perfil para incluir login;
-    - depois segue para o menu, tem que levar o ID com ele.
-    - incluir login na função backup e restore;
+    - alterar função listar perfil para incluir login; OK
+    - depois segue para o menu, tem que levar o ID com ele. OK
+    - incluir login na função backup e restore; OK
+
+    // Backup e restore -> Pesquisa
+    https://stackoverflow.com/questions/4368677/writing-an-array-of-structs-to-a-binary-file-in-c
+    
 
 
