@@ -459,7 +459,8 @@ void escolherPerfil(Perfil *p, int counter, int y){
     scanf("%d", &x);
 
     printf("\n\t\t%s %s | %d anos | %s | %s\n", p[x].nome,p[x].sobrenome, calculateAge(p[x].dataNascimento.dia, p[x].dataNascimento.mes, p[x].dataNascimento.ano), p[x].localidade, p[x].email);
-    printf("\n\t\t\tMensagens do Mural\n\n");
+    printf("\n\t\t\tMensagens do Mural");
+    printf("\n\t\t\t------------------\n\n");
 
     if(p[x].contaMsg == 0) {
         
@@ -509,7 +510,8 @@ void publicarMensagem(Perfil *p, int x, int y){
     system("clear");
 
     printf("\n\t\t%s %s | %d anos | %s | %s\n", p[x].nome,p[x].sobrenome, calculateAge(p[x].dataNascimento.dia, p[x].dataNascimento.mes, p[x].dataNascimento.ano), p[x].localidade, p[x].email);
-    printf("\n\t\t\tMensagens do Mural\n\n");
+    printf("\n\t\t\tMensagens do Mural");
+    printf("\n\t\t\t------------------\n\n");
 
     if(p[x].contaMsg == 0) {
         
