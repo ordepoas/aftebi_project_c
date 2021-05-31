@@ -34,7 +34,7 @@ int menu1(Perfil *p) {
     opcao = validaOpcao(2);
 
         if(opcao == 1) {
-        p[contaPerfil] = criarPerfil(&contaPerfil);
+        p[contaPerfil] = criarPerfil(&contaPerfil); //recebe o perfil criado na função
     } else if (opcao == 2) {
         x = listarPerfil(p, contaPerfil);
         menu2(p, x);
@@ -88,8 +88,9 @@ int menu3(Perfil *p, int x, int y) {
     printf("\t\t------------------------------------------\n");
     printf("\t\t(1)\tColocar uma mensagem no Mural\n");
     printf("\t\t(2)\tVoltar atrás\n");
+    printf("\t\t(3)\tDeixar gosto numa mensagem\n");
     if(x == y) {
-    printf("\t\t(3)\tApagar uma mensagem do mural\n");
+    printf("\t\t(4)\tApagar uma mensagem do mural\n");
     }
     printf("\n");
     printf("\t\t(0)\tSair\n");
@@ -97,7 +98,7 @@ int menu3(Perfil *p, int x, int y) {
     printf("\n");
     printf("\t\tEscolha uma das opções: ");
 
-    opcao = validaOpcao(3);
+    opcao = validaOpcao(4);
 
     if(opcao == 1) {
         publicarMensagem(p, x, y);
@@ -105,6 +106,11 @@ int menu3(Perfil *p, int x, int y) {
 
         menu2(p, y);
     } else if(opcao == 3) {
+
+        deixaGosto(p, x, y);
+        menu3(p, x, y);
+
+    } else if(opcao == 4) {
 
         apagaMensagem(p, x, y);
         menu3(p, x, y);
@@ -145,7 +151,7 @@ void backup(Perfil *p, int a) {
         counter = fopen("counter.txt", "w+");
         fprintf(counter, "%d ", contaPerfil);
         fclose(counter);
-
+        //código retirado do stackoverflow e ajustado
         FILE* data;
         
         if ( (data = fopen("data.bin", "wb")) == NULL ) {
@@ -192,6 +198,7 @@ void restore(Perfil *p) {
 
         fclose(counter);
 
+        //código retirado do stackoverflow e ajustado 
         FILE* data;
         if ((data = fopen("data.bin", "rb")) == NULL){
 
@@ -216,9 +223,10 @@ int validaOpcao(int x) {
     do {
 
         char buffer[2];
-
         scanf("%d", &n);
         getchar();
+        printf("\t\t");
+
 
     } while (n < 0 || n > x);
 
@@ -419,11 +427,15 @@ int listarPerfil(Perfil *p, int counter){
     }
     printf("\n");
     printf("\t\tIndique a sua opção: ");
+
+    x = validaOpcao(i);
+
+    /*
     do {
         fgets(buffer, 5, stdin);
         sscanf(buffer, "%d", &x);
     } while(x < 0 || x > i);
-
+    */
     y = login(p, x);
 
     //menu2(p);
@@ -456,7 +468,7 @@ void escolherPerfil(Perfil *p, int counter, int y){
 
         for (j = 0; j < p[x].contaMsg; j++) {
 
-            printf("\t\t\tAutor: %s | Mensagem: %s\n", p[x].mural[j].autor,p[x].mural[j].texto);
+            printf("\t\t\tAutor: %s | Mensagem: %s | Gosto: %d\n", p[x].mural[j].autor,p[x].mural[j].texto,p[x].mural[j].contaGostos);
         }
     }
 
@@ -488,6 +500,8 @@ void publicarMensagem(Perfil *p, int x, int y){
     } while (checkString(p[x].mural[p[x].contaMsg].texto) == 0);
 
     printf("\n");
+    
+    p[x].mural[p[x].contaMsg].contaGostos = 0;   
 
     p[x].contaMsg++;
 
@@ -504,7 +518,7 @@ void publicarMensagem(Perfil *p, int x, int y){
 
         for (int j = 0; j < p[x].contaMsg; j++) {
 
-            printf("\t\t\tAutor: %s | Mensagem: %s\n", p[x].mural[j].autor,p[x].mural[j].texto);
+            printf("\t\t\tAutor: %s | Mensagem: %s | Gosto: %d\n", p[x].mural[j].autor,p[x].mural[j].texto, p[x].mural[j].contaGostos);
         }
     }
 
@@ -583,7 +597,7 @@ int login(Perfil *p, int x) {
 
 }
 
-// apagar mensagens
+// apagar mensagens (permissão só para o utilizador proprietário do mural)
 void apagaMensagem(Perfil *p, int x, int y) {
 
     int z, i;
@@ -593,7 +607,7 @@ void apagaMensagem(Perfil *p, int x, int y) {
 
     for (i = 0; i < p[y].contaMsg; i++) {
 
-        printf("(%d) -> %s - %s", i, p[y].mural[i].autor, p[y].mural[i].texto);
+        printf("\t\t(%d) -> %s - %s", i, p[y].mural[i].autor, p[y].mural[i].texto);
 
     }
 
@@ -601,13 +615,56 @@ void apagaMensagem(Perfil *p, int x, int y) {
 
     z = validaOpcao(i);
 
-        for (int i = z; i < p[y].contaMsg; i++) {
+    for (int i = z; i < p[y].contaMsg; i++) {
 
-        p[i] = p[i+1];
+        strcpy(p[y].mural[i].autor, p[y].mural[i+1].autor);
+        strcpy(p[y].mural[i].texto, p[y].mural[i+1].texto);
 
     }
 
+    p[y].contaMsg--;
+
     printf("\n\t\tMensagem apagada com sucesso!!\n");
+
+}
+
+// deixar gosto nos comentários
+void deixaGosto(Perfil *p, int x, int y) {
+
+    int z, i;
+    char buffer[10];
+
+    printf("\t\tQual a mensagem que deseja deixar gosto: \n");
+
+    for (i = 0; i < p[y].contaMsg; i++) {
+
+        printf("\t\t(%d) -> %s - %s\n", i, p[y].mural[i].autor, p[y].mural[i].texto);
+
+    }
+
+    printf("\n\t\tIndique a sua opção: ");
+
+    z = validaOpcao(i);
+
+    p[y].mural[z].contaGostos++;
+
+    system("clear");
+    printf("\n\t\tO seu gosto foi publicado!!\n");
+
+    printf("\n\t\t%s %s | %d anos | %s | %s\n", p[x].nome,p[x].sobrenome, calculateAge(p[x].dataNascimento.dia, p[x].dataNascimento.mes, p[x].dataNascimento.ano), p[x].localidade, p[x].email);
+    printf("\n\t\t\tMensagens do Mural\n\n");
+
+    if(p[x].contaMsg == 0) {
+        
+        printf("\t\t\t---- Não há mensagens publicadas ----\n");
+
+    } else {
+
+        for (int j = 0; j < p[x].contaMsg; j++) {
+
+            printf("\t\t\tAutor: %s | Mensagem: %s | Gosto: %d\n", p[x].mural[j].autor,p[x].mural[j].texto, p[x].mural[j].contaGostos);
+        }
+    }
 
 
 }

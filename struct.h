@@ -24,9 +24,10 @@ typedef struct s_mural {
 
     char autor[50];
     char texto[200];
+    int contaGostos;
 } Mural;
 
-//---- Estrtura do login
+//---- Estrutura do login
 typedef struct s_login {
     char username[25];
     char password[25];

@@ -21,3 +21,4 @@ void backup(Perfil *p,int a);
 void restore(Perfil *p);
 int login(Perfil *p, int x);
 void apagaMensagem(Perfil *p, int x, int y);
+void deixaGosto(Perfil *p, int x, int y);

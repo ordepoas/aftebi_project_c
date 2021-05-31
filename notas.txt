@@ -29,4 +29,6 @@ validar @ no email --> OK
     https://stackoverflow.com/questions/4368677/writing-an-array-of-structs-to-a-binary-file-in-c
     
 
+    
+
 
