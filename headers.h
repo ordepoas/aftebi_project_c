@@ -8,7 +8,7 @@
 int menu1(Perfil *p);
 int menu2(Perfil *p, int x);
 int menu3(Perfil *p, int x, int y);
-int validaOpcao(); 
+int validaOpcao(int x); 
 int validaData(int dia, int mes, int ano);
 Perfil criarPerfil(int *contaPerfil); 
 int listarPerfil(Perfil *p, int counter); 
@@ -20,3 +20,4 @@ int calculateAge(int dia, int mes, int ano);
 void backup(Perfil *p,int a);
 void restore(Perfil *p);
 int login(Perfil *p, int x);
+void apagaMensagem(Perfil *p, int x, int y);

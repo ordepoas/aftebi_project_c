@@ -31,7 +31,7 @@ int menu1(Perfil *p) {
     printf("\n");
     printf("\t\tEscolha uma das opções: ");
     
-    opcao = validaOpcao();
+    opcao = validaOpcao(2);
 
         if(opcao == 1) {
         p[contaPerfil] = criarPerfil(&contaPerfil);
@@ -61,7 +61,7 @@ int menu2(Perfil *p, int x) {
     printf("\t\t------------------------------------------\n");
     printf("\n");
     printf("\t\tEscolha uma das opções: ");
-    opcao = validaOpcao();
+    opcao = validaOpcao(2);
 
     if(opcao == 1) {
 
@@ -88,19 +88,26 @@ int menu3(Perfil *p, int x, int y) {
     printf("\t\t------------------------------------------\n");
     printf("\t\t(1)\tColocar uma mensagem no Mural\n");
     printf("\t\t(2)\tVoltar atrás\n");
+    if(x == y) {
+    printf("\t\t(3)\tApagar uma mensagem do mural\n");
+    }
     printf("\n");
     printf("\t\t(0)\tSair\n");
     printf("\t\t------------------------------------------\n");
     printf("\n");
     printf("\t\tEscolha uma das opções: ");
 
-    opcao = validaOpcao();
+    opcao = validaOpcao(3);
 
     if(opcao == 1) {
         publicarMensagem(p, x, y);
     } else if (opcao == 2) {
 
         menu2(p, y);
+    } else if(opcao == 3) {
+
+        apagaMensagem(p, x, y);
+        menu3(p, x, y);
 
     } else if(opcao == 0) {
 
@@ -133,34 +140,6 @@ void backup(Perfil *p, int a) {
 
     if(y == 1) {
         //---- Backup----
-
-    /*    
-        FILE *perfis;
-        perfis = fopen("perfis.txt", "w+");
-        for (int i = 0; i < a; i++) {
-
-            fprintf(
-                perfis, "%s %s %d %d %d %s %s %s %s %d ",
-                p[i].nome,
-                p[i].sobrenome,
-                p[i].dataNascimento.dia,
-                p[i].dataNascimento.mes,
-                p[i].dataNascimento.ano,
-                p[i].email,
-                p[i].localidade,
-                p[i].login.username,
-                p[i].login.password,
-                p[i].contaMsg
-            );
-
-            for (int j = 0; j < p[i].contaMsg; j++) {
-
-                fprintf(perfis, "%s %s ", p[i].mural[j].autor, p[i].mural[j].texto);
-            }
-        }
-        
-        fclose(perfis);
-        */
 
         FILE *counter;
         counter = fopen("counter.txt", "w+");
@@ -204,41 +183,6 @@ void restore(Perfil *p) {
     if(y == 1) {
 
         //---- Restore----
-    /*    
-        FILE *perfis;
-        perfis = fopen("perfis.txt", "r+");
-
-        Perfil q;
-        int i = 0;
-
-        while(!feof(perfis)) {
-
-            fscanf(perfis, "%s %s %d %d %d %s %s %s %s %d ",
-                q.nome,
-                q.sobrenome,
-                &q.dataNascimento.dia,
-                &q.dataNascimento.mes,
-                &q.dataNascimento.ano,
-                q.email,
-                q.localidade,
-                q.login.username,
-                q.login.password,
-                &q.contaMsg
-            );
-
-            for (int j = 0; j < q.contaMsg; j++) {
-
-                fscanf(perfis, "%s %s ", q.mural[j].autor, q.mural[j].texto);
-                
-            }
-
-            p[i] = q;
-            i++;
-        }
-
-        fclose(perfis);
-        (*contaPerfil) = i;
-    */
         FILE *counter;
         counter = fopen("counter.txt", "r");
         char buffer[MAX_LENGTH_25];
@@ -252,10 +196,8 @@ void restore(Perfil *p) {
         if ((data = fopen("data.bin", "rb")) == NULL){
 
             printf("Error opening file\n");
-            //return 1;
-        }
 
-        //struct Person people[2];
+        }
 
         for (int i = 0; i < contaPerfil; i++) {
 
@@ -266,22 +208,21 @@ void restore(Perfil *p) {
     }
 }
 
-//Função par validar a opção escolhida nos menus devolve 0, 1 ou 2
-int validaOpcao() {
+//Função par validar a opção escolhida nos menus e devolve a opcao escolhida, o parametro são o numero de opções do menu;
+int validaOpcao(int x) {
 
     int n;
 
-    while (1) {
+    do {
+
+        char buffer[2];
 
         scanf("%d", &n);
         getchar();
-        if(n != 0 && n != 1 && n != 2) {
 
-            printf("\t\tOpção inválida\n\t\t");
-        }
+    } while (n < 0 || n > x);
 
-        return n;
-    }
+    return n;
 }
 
 //Função para validar a data entrada -> devolve o valor 0 para inválida e 1 para válida
@@ -543,11 +484,29 @@ void publicarMensagem(Perfil *p, int x, int y){
         printf("\t\tMensagem: ");
         fgets(p[x].mural[p[x].contaMsg].texto, MAX_LENGTH_200, stdin);
         p[x].mural[p[x].contaMsg].texto[strlen(p[x].mural[p[x].contaMsg].texto)-1] = '\0';
+
     } while (checkString(p[x].mural[p[x].contaMsg].texto) == 0);
 
     printf("\n");
 
     p[x].contaMsg++;
+
+    system("clear");
+
+    printf("\n\t\t%s %s | %d anos | %s | %s\n", p[x].nome,p[x].sobrenome, calculateAge(p[x].dataNascimento.dia, p[x].dataNascimento.mes, p[x].dataNascimento.ano), p[x].localidade, p[x].email);
+    printf("\n\t\t\tMensagens do Mural\n\n");
+
+    if(p[x].contaMsg == 0) {
+        
+        printf("\t\t\t---- Não há mensagens publicadas ----\n");
+
+    } else {
+
+        for (int j = 0; j < p[x].contaMsg; j++) {
+
+            printf("\t\t\tAutor: %s | Mensagem: %s\n", p[x].mural[j].autor,p[x].mural[j].texto);
+        }
+    }
 
     menu3(p, x, y);
 }
@@ -620,6 +579,35 @@ int login(Perfil *p, int x) {
     }
 
     return x;
+
+
+}
+
+// apagar mensagens
+void apagaMensagem(Perfil *p, int x, int y) {
+
+    int z, i;
+    char buffer[10];
+
+    printf("\t\tQual a mensagem que deseja apagar: \n");
+
+    for (i = 0; i < p[y].contaMsg; i++) {
+
+        printf("(%d) -> %s - %s", i, p[y].mural[i].autor, p[y].mural[i].texto);
+
+    }
+
+    printf("\n\t\tIndique a sua opção: ");
+
+    z = validaOpcao(i);
+
+        for (int i = z; i < p[y].contaMsg; i++) {
+
+        p[i] = p[i+1];
+
+    }
+
+    printf("\n\t\tMensagem apagada com sucesso!!\n");
 
 
 }
