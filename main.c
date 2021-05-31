@@ -151,6 +151,7 @@ void backup(Perfil *p, int a) {
         counter = fopen("counter.txt", "w+");
         fprintf(counter, "%d ", contaPerfil);
         fclose(counter);
+        
         //código retirado do stackoverflow e ajustado
         FILE* data;
         
