@@ -148,7 +148,11 @@ void backup(Perfil *p, int a) {
         //---- Backup----
 
         FILE *counter;
-        counter = fopen("counter.txt", "w+");
+        if((counter = fopen("counter.txt", "w+")) == NULL) {
+
+            printf("Erro ao abrir ficheiro\n");
+
+        };
         fprintf(counter, "%d ", contaPerfil);
         fclose(counter);
         
@@ -156,8 +160,8 @@ void backup(Perfil *p, int a) {
         FILE* data;
         
         if ( (data = fopen("data.bin", "wb")) == NULL ) {
-            printf("Error opening file\n");
-            //return 1;   
+
+            printf("Erro ao abrir ficheiro\n");
         }
 
         fwrite(p, sizeof(Perfil) * contaPerfil, 1, data);
@@ -191,7 +195,12 @@ void restore(Perfil *p) {
 
         //---- Restore----
         FILE *counter;
-        counter = fopen("counter.txt", "r");
+        if((counter = fopen("counter.txt", "r")) == NULL) {
+
+            printf("Erro ao abrir ficheiro\n");
+
+        }
+
         char buffer[MAX_LENGTH_25];
 
         fgets(buffer, MAX_LENGTH_25, counter);
@@ -203,7 +212,7 @@ void restore(Perfil *p) {
         FILE* data;
         if ((data = fopen("data.bin", "rb")) == NULL){
 
-            printf("Error opening file\n");
+            printf("Erro ao abrir ficheiro\n");
 
         }
 
@@ -431,15 +440,8 @@ int listarPerfil(Perfil *p, int counter){
 
     x = validaOpcao(i);
 
-    /*
-    do {
-        fgets(buffer, 5, stdin);
-        sscanf(buffer, "%d", &x);
-    } while(x < 0 || x > i);
-    */
     y = login(p, x);
 
-    //menu2(p);
     return y;
 }
 
