@@ -1,2 +1,2 @@
-# aftebi_project_c
+# AFTEBI - C Project
 Individual first project In C Language for evaluation 
